@@ -1,0 +1,85 @@
+body {
+    font-family: monospace, poppins, sans-serif;
+    background-color: #22272B;
+    color: limegreen;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+.terminal {
+    background-color: #292f34;
+    border: 2px solid rgb(50, 195, 205);
+    border-radius: 5px;
+    
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    width: auto;
+    max-width: auto;
+    margin: 20px 20px 20px;
+    padding: 30px;
+}
+
+.terminal .welcome .Ascii {
+    color: #f5d0a7;
+    font-family: monospace, poppins, sans-serif;
+    font-weight: bold;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+.terminal .welcome {
+    padding-bottom: 5px;
+    color: #b58c5e;
+}
+
+.terminal .welcome .line {
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+}
+
+.terminal .prompt span {
+    margin: 0;
+    padding: 0;
+}
+
+.terminal .prompt .colon {
+    display: inline; /* Make the individual parts inline elements */
+}
+
+.terminal .prompt .user {
+    color: rgb(86, 171, 86); /* Change this color to the desired user color */
+}
+
+.terminal .prompt .at {
+    color: white; /* Change this color to the desired "@" symbol color */
+}
+
+.terminal .prompt .website {
+    color: rgb(104, 202, 170); /* Change this color to the desired website color */
+}
+
+.terminal .prompt .colon {
+    color: magenta; /* Change this color to the desired colon (":") color */
+}
+
+#terminal-input {
+    background-color: #292f34;
+    color: lime; /* Text color */
+    border: none; /* Remove the border */
+    border-bottom: 1px solid #3a434a; /* Add a bottom border for underlining */
+    border-radius: 0; /* Remove border-radius */
+    padding: 5px 10px; /* Padding inside the input box */
+    font-family: monospace; /* Font family */
+}
+
+#terminal-input:focus {
+    outline: none;
+    border-color: wheat;
+}

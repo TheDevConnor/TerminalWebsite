@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terminal-Style Website</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="terminal">
+    <!-- Terminal Welcome -->
+    <div class="welcome">
+      <pre class="Ascii">
+██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗
+██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝
+██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗  
+██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝  
+╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗
+ ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝ </pre>                                     
+      <span class="line">Welcome to TheDevConnorPortfolio</span>
+      <span class="line">Type 'help' to get started</span>
+    </div>
+
+    <!-- guest@website -->
+    <div class="prompt">
+      <span class="user">guest</span><span class="at">@</span
+        ><span class="website">TheDevConnorPortfolio</span
+        ><span class="colon">:$ ~</span>
+
+        <!-- Terminal Input -->
+        <input id="terminal-input" type="text" />
+    </div>
+
+    <div class="output"/>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
