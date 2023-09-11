@@ -18,14 +18,14 @@ function executeCommand(command) {
     - Repository Name: Terminal Website
     - Author: TheDevConnor
     - Description: A terminal style portfolio website
-    - URL: [Link to Repo](https://github.com/your-username/your-repo)`;
+    - URL: [Link to Repo](https://github.com/TheDevConnor/TerminalWebsite)`;
     } else if (command.startsWith('project')) {
         const projectArgs = command.split(' ');
         if (projectArgs.length === 2) {
             const projectName = projectArgs[1];
             return `Project Information for ${projectName}: (Insert details here)`;
         } else {
-            return 'Usage: project <project-name>';
+            return 'Usage: project <project name>';
         }
     }
     return `Unknown command: ${command}`;
