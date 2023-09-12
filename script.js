@@ -1,6 +1,11 @@
 const terminal = document.querySelector('.terminal');
 const input = document.getElementById('terminal-input');
 
+input.focus();
+terminal.addEventListener('click', function () {
+    input.focus();
+});
+
 input.addEventListener('keydown', function (event) {
     if (event.key === 'Enter') {
         const command = input.value.trim(); // Remove leading/trailing whitespace

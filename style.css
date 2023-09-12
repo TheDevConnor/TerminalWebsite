@@ -78,8 +78,6 @@ a  {
     background-color: #292f34;
     color: lime; /* Text color */
     border: none; /* Remove the border */
-    border-bottom: 1px solid #3a434a; /* Add a bottom border for underlining */
-    border-radius: 0; /* Remove border-radius */
     padding: 5px 10px; /* Padding inside the input box */
     font-family: monospace; /* Font family */
 }
