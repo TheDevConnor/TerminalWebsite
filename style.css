@@ -7,6 +7,11 @@ body {
     padding: 0;
 }
 
+a  {
+    color: #00b8ff;
+    text-decoration: none;
+}
+
 .terminal {
     background-color: #292f34;
     border: 2px solid rgb(50, 195, 205);
