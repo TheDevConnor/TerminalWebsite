@@ -7,7 +7,7 @@ case 'chess':{return `Chess is a chess engine that I made using python. It is no
     chess engine, but it is a chess engine. You can find the repository <a target="_blank" href="https://github.com/TheDevConnor/Basic-Python-Chess-Engine">here</a>.`}
 case 'wordle':{return `Wordle is a word game that I made using html, css, and javascript. It is a game where 
 you have to guess a word in 6 tries. You can find the repository <a target="_blank" href="https://github.com/TheDevConnor/Wordle-Clone">here</a>, and the video <a target="_blank" href="https://www.youtube.com/watch?v=savPJTlsv2k&t=160s">here</a>.`}}}
-function executeCommand(command){if(command==='help'){return'Available commands: help, repo, project, clear'}else if(command==='repo'){return `
+function executeCommand(command){if(command==='help'){return'Available commands: help, repo, contact, project, clear'}else if(command==='repo'){return `
     Repository Information:
     - Repository Name: Terminal Website
     - Author: TheDevConnor
@@ -20,5 +20,10 @@ made a chess engine in python, a wordle clone in html, css, and javascript, and 
 custom programming language in c++. I am currently working on a custom programming 
 language in c++ called Zura. I also have a youtube channel where I post 
 videos about programming. You can find my channel <a target="_blank" href="https://www.youtube.com/channel/UCpEYiOD5VxkK3iK7JmtbrPQ">here</a>.`}
+else if(command==='contact'){return `
+    Contact Information:
+    - Discord: thedevconnor
+    - Github: <span><a target="_blank" href="https://github.com/TheDevConnor">Link to Github</a></span>
+    - Email: <a href="mailto:connorharris427@gmail.com"><span class="email">connorharris427@gmail.com</span>`}
 return `Unknown command: ${command}`}
 function appendResponse(response){const output=document.querySelector('.output');const responseText=document.createElement('pre');responseText.innerHTML=response;output.appendChild(responseText)}
