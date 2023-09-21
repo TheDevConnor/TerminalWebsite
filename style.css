@@ -86,3 +86,9 @@ a  {
     outline: none;
     border-color: wheat;
 }
+
+@media only screen and (max-width: 600px) {
+    .terminal .welcome .Ascii {
+        font-size: 10px;
+    }
+}
