@@ -27,6 +27,7 @@ a  {
     max-width: auto;
     margin: 20px 20px 20px;
     padding: 30px;
+    overflow-y: scroll;
 }
 
 .terminal .welcome .Ascii {
