@@ -7,6 +7,11 @@ body {
     padding: 0;
 }
 
+/* width */
+::-webkit-scrollbar {
+    width: 0px;
+}
+
 a  {
     color: #00b8ff;
     text-decoration: none;
@@ -50,6 +55,15 @@ a  {
     line-height: 1.5;
 }
 
+.terminal .welcome .sub_line {
+    margin: 0;
+    padding: 0;
+    line-height: 0.5;
+    color: #ebc8a0;
+    font-size: 15px;
+    font-style: italic;
+}
+
 .terminal .prompt span {
     margin: 0;
     padding: 0;
@@ -75,17 +89,23 @@ a  {
     color: magenta; /* Change this color to the desired colon (":") color */
 }
 
-#terminal-input {
+.terminal-input {
     background-color: #292f34;
     color: lime; /* Text color */
     border: none; /* Remove the border */
     padding: 5px 10px; /* Padding inside the input box */
     font-family: monospace; /* Font family */
-}
-
-#terminal-input:focus {
     outline: none;
     border-color: wheat;
+}
+
+.terminal .output {
+    color: whitesmoke; /* Text color */
+    font-family: monospace; /* Font family */
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
 }
 
 @media only screen and (max-width: 600px) {
