@@ -108,6 +108,13 @@ a  {
     padding: 0;
 }
 
+.autocomplete{
+    color: white;
+    font-style:italic;
+    opacity: 0.2;
+    user-select: none;
+}
+
 @media only screen and (max-width: 600px) {
     .terminal .welcome .Ascii {
         font-size: 10px;

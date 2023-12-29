@@ -46,6 +46,7 @@ const appendInput = () => {
         appendInput();
       },
       Tab: () => {
+        e.preventDefault();
         const value = input.value;
         const args = value.split(" ");
         if (args.length === 1) {
@@ -60,9 +61,7 @@ const appendInput = () => {
             "fetch",
           ];
           const command = args[0];
-          const matchingCommands = commands.filter((c) =>
-            c.startsWith(command)
-          );
+          const matchingCommands = commands.filter((c) => c.startsWith(command));
           if (matchingCommands.length === 1) {
             input.value = matchingCommands[0];
           }
@@ -73,7 +72,7 @@ const appendInput = () => {
             const projects = ["zura", "chess", "wordle", "terminal", "all"];
             const matchingProjects = projects.filter((p) => p.startsWith(arg));
             if (matchingProjects.length === 1) {
-              input.value = `project ${matchingProjects[0]}`;
+              input.value = `${command} ${matchingProjects[0]}`;
             }
           }
         }
@@ -86,6 +85,54 @@ const appendInput = () => {
       e.preventDefault();
       specialKeys[e.key]();
     }
+  });
+
+  input.addEventListener("input", (e) => {
+    const value = input.value;
+    const args = value.split(" ");
+    if (args.length === 1) {
+      const commands = [
+        "help",
+        "github",
+        "project",
+        "clear",
+        "about",
+        "contact",
+        "youtube",
+        "fetch",
+      ];
+      const command = args[0];
+      const matchingCommands = commands.filter((c) => c.startsWith(command));
+      if (matchingCommands.length === 1) {
+        const autocomplete = input.parentElement.querySelector(".autocomplete");
+        autocomplete.innerHTML = matchingCommands[0].slice(command.length);
+      } else {
+        const autocomplete = input.parentElement.querySelector(".autocomplete");
+        autocomplete.innerHTML = "";
+      }
+    } else if (args.length === 2) {
+      const command = args[0];
+      const arg = args[1];
+      if (command === "project") {
+        const projects = ["zura", "chess", "wordle", "terminal", "all"];
+        const matchingProjects = projects.filter((p) => p.startsWith(arg));
+        if (matchingProjects.length === 1) {
+          const autocomplete =
+            input.parentElement.querySelector(".autocomplete");
+          autocomplete.innerHTML = matchingProjects[0].slice(arg.length);
+        } else {
+          const autocomplete =
+            input.parentElement.querySelector(".autocomplete");
+          autocomplete.innerHTML = "";
+        }
+      }
+    } else {
+      const autocomplete = input.parentElement.querySelector(".autocomplete");
+      autocomplete.innerHTML = "";
+    }
+
+    input.focus();
+    input.setSelectionRange(1000, 1000);
   });
 };
 
