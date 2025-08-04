@@ -219,13 +219,9 @@ function executeCommand(command) {
     terminal.innerHTML = "";
     return "";
   } else if (command === "about") {
-    const response = `Hi, my name is Connor Harris. I have been programming for about 5 years now.
-        I am currently a student at the Indian River State College and plan to go to FIU. 
-        I am currently working on a few projects, including a custom programming language that's main
-        focus is to be easy and simple to use. I am a self-taught programmer, and I have learned
-        everything I know from the internet and the people around me. I am always looking to learn
-        more and improve my skills. I have a passion for programming and I hope to one day make a
-        career out of it.`;
+    const response = `Hi, my name is Connor Harris, and I’m a 20-year-old self-taught programmer with about 5 years of experience. I’m currently pursuing a Bachelor’s degree in Computer Science at Florida Polytechnic University, with a focus on either software engineering or artificial intelligence.
+I'm passionate about creating developer tools and low-level systems — currently working on two programming languages, Zura and Lux, designed to make coding cleaner, simpler, and more powerful.
+Most of what I’ve learned has come from exploring, building, and learning from others online. I’m always striving to grow, and I hope to turn this passion into a lifelong career.`;
     appendResponse(response);
     return "";
   } else if (command === "contact") {
@@ -251,7 +247,7 @@ function executeCommand(command) {
   .',,;:coooooooolllllllll:,'''''''''''''''''...',                  -------------------------
   .'codoooooooolooooooooooool,...................'                  About Me:
     .,codoooolooooooooooddol,.....................                  Name: Connor Harris
-     .'cdoloooddooolodxxxdolc,'...................                  Age: 19
+     .'cdoloooddooolodxxxdolc,'...................                  Age: 20
     .,lodoooolodxddoodddolllll;...................                  Location: Florida
    .;cllooooooodxooooollooool;... ....... ......                    Education: AA Engineering; plan for a BS in Computer Science
   ....,',oocloooooodoooooooolc;....',,,'...',,,. .                  Programming Languages: C++, C, Python, JavaScript, HTML, CSS
