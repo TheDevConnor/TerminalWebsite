@@ -1,9 +1,9 @@
 const terminal = document.querySelector(".terminal");
 const promptTemplate = document.getElementById("prompt");
-let commandStack = JSON.parse(sessionStorage.getItem('commandHistory') || '[]');
+let commandStack = [];
 let showTimestamps = false;
+let matrixInterval = null;
 
-// Linux boot sequence messages
 const bootMessages = [
   { text: "TheDevConnor Terminal v2.4.1 loading...", delay: 100, class: "boot-info" },
   { text: "", delay: 200, class: "" },
@@ -90,7 +90,6 @@ let currentBootIndex = 0;
 
 function displayBootMessage() {
   if (currentBootIndex >= bootMessages.length) {
-    // Boot sequence complete, show the ASCII art and welcome
     setTimeout(() => {
       document.getElementById('bootSequence').style.display = 'none';
       const welcome = document.querySelector('.welcome');
@@ -100,7 +99,7 @@ function displayBootMessage() {
       setTimeout(() => {
         appendInput();
       }, 800);
-    }, 1000);
+    }, 100);
     return;
   }
 
@@ -110,15 +109,12 @@ function displayBootMessage() {
   bootLine.innerHTML = message.text;
 
   document.getElementById('bootSequence').appendChild(bootLine);
-
-  // Auto-scroll to bottom
   terminal.scrollTop = terminal.scrollHeight;
 
   currentBootIndex++;
   setTimeout(displayBootMessage, message.delay);
 }
 
-// Start boot sequence on page load
 window.addEventListener('load', () => {
   setTimeout(displayBootMessage, 500);
 });
@@ -172,12 +168,9 @@ const appendInput = () => {
   input.addEventListener("keydown", (e) => {
     const commandHistoryMovement = (direction) => {
       if (!direction && currentlyOnStack > 0) currentlyOnStack -= 1;
-      if (direction && currentlyOnStack < commandStack.length)
-        currentlyOnStack += 1;
-      if (commandStack[currentlyOnStack])
-        input.value = commandStack[currentlyOnStack];
+      if (direction && currentlyOnStack < commandStack.length) currentlyOnStack += 1;
+      if (commandStack[currentlyOnStack]) input.value = commandStack[currentlyOnStack];
       else input.value = "";
-
       input.focus();
       input.setSelectionRange(1000, 1000);
     };
@@ -190,7 +183,6 @@ const appendInput = () => {
 
         if (value) {
           commandStack.push(value);
-          sessionStorage.setItem('commandHistory', JSON.stringify(commandStack.slice(-50))); // Keep last 50 commands
         }
 
         executeCommand(value);
@@ -205,7 +197,9 @@ const appendInput = () => {
         if (args.length === 1) {
           const commands = [
             "help", "github", "project", "clear", "about", "contact",
-            "youtube", "fetch", "ls", "whoami", "skills", "time", "history"
+            "youtube", "fetch", "ls", "whoami", "skills", "time", "history",
+            "cmatrix", "effects", "theme", "crt", "rgb", "neon", "hologram", "matrix",
+            "amber", "phosphor", "default", "cyberpunk", "retrowave", "termblue", "hacker"
           ];
           const command = args[0];
           const matchingCommands = commands.filter((c) => c.startsWith(command));
@@ -224,13 +218,16 @@ const appendInput = () => {
       }
     };
 
+    if (e.ctrlKey && e.key === "c") {
+      stopMatrix();
+    }
+
     if (specialKeys[e.key]) {
       e.preventDefault();
       specialKeys[e.key]();
     }
   });
 
-  // Auto-complete functionality
   input.addEventListener("input", (e) => {
     const value = input.value;
     const args = value.split(" ");
@@ -251,23 +248,29 @@ const appendInput = () => {
       ctx.font = getComputedStyle(input).font;
       const textWidth = ctx.measureText(value).width;
 
-      autocomplete.style.left = `${10 + textWidth}px`; // 5 matches input padding
+      autocomplete.style.left = `${10 + textWidth}px`;
     };
 
     if (args.length === 1) {
       const commands = [
-        "help", "github", "project", "clear", "about", "contact",
-        "youtube", "fetch", "ls", "whoami", "skills", "time", "history"
+        "help", "contact", "project", "about", "youtube", "fetch",
+        "clear", "whoami", "skills", "time", "history", "effects", "theme",
+        "cmatrix"
       ];
       updateAutocomplete(commands, args[0]);
     } else if (args.length === 2 && args[0] === "project") {
       const projects = ["zura", "chess", "wordle", "terminal", "all"];
       updateAutocomplete(projects, args[1]);
+    } else if (args.length === 2 && args[0] === "effect") {
+      const effects = ["crt", "rgb", "neon", "hologram", "matrix", "cyberpunk", "retrowave"];
+      updateAutocomplete(effects, args[1]);
+    } else if (args.length === 2 && args[0] === "theme") {
+      const themes = ["amber", "phosphor", "default", "termblue", "hacker"];
+      updateAutocomplete(themes, args[1]);
     } else {
       autocomplete.textContent = "";
     }
   });
-
 };
 
 document.body.addEventListener("click", () => {
@@ -275,12 +278,306 @@ document.body.addEventListener("click", () => {
   if (input) input.focus();
 });
 
+function startMatrix() {
+  const canvas = document.getElementById("matrixCanvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  canvas.style.display = "block";
+
+  const letters = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+  const fontSize = 14;
+  const columns = canvas.width / fontSize;
+  const drops = Array(Math.floor(columns)).fill(1);
+
+  function draw() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#0F0";
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = letters.charAt(Math.floor(Math.random() * letters.length));
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+
+  matrixInterval = setInterval(draw, 33);
+}
+
+function stopMatrix() {
+  if (matrixInterval) {
+    clearInterval(matrixInterval);
+    matrixInterval = null;
+    const canvas = document.getElementById("matrixCanvas");
+    canvas.style.display = "none";
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+}
+
+// Enhanced effect management
+function clearAllEffects() {
+  const effectClasses = ['crt', 'rgb', 'neon', 'hologram', 'matrix-bg', 'cyberpunk', 'retrowave'];
+  effectClasses.forEach(className => {
+    terminal.classList.remove(className);
+  });
+}
+
+function clearAllThemes() {
+  const themeClasses = ['amber', 'phosphor', 'termblue', 'hacker'];
+  themeClasses.forEach(className => {
+    terminal.classList.remove(className);
+  });
+}
+
+function executeCommand(command) {
+  if (!command) return;
+
+  const args = command.split(" ");
+  const cmd = args[0].toLowerCase();
+
+  const commands = {
+    "help": () => "Available commands: help, contact, project, about, youtube, fetch, clear, ls, whoami, skills, time, history, cmatrix, effects, theme",
+
+    "effects": () => `<pre><span style="color:cyan;">Available Visual Effects:</span>
+
+  <span style="color:lime;">Shader Effects:</span>
+    • crt       - Classic CRT monitor with scanlines and phosphor glow
+    • rgb       - RGB color separation with glitch animation
+    • neon      - Pulsing neon glow border effect
+    • hologram  - Holographic scanning with color shifts
+    • cyberpunk - Futuristic cyberpunk aesthetic with pink/cyan
+    • retrowave - 80s synthwave theme with gradient effects
+
+  <span style="color:lime;">Theme Effects:</span>
+    • amber     - Retro amber monochrome terminal
+    • phosphor  - Classic green phosphor CRT display
+    • termblue  - Cool blue terminal theme
+    • hacker    - Matrix-style green hacker terminal
+    • matrix    - Matrix-style background pattern
+
+  <span style="color:lime;">Usage:</span>
+    • Type: effect [name] to toggle an effect
+    • Type: theme [name] to apply a theme
+    • Type: effect clear to remove all effects
+    • Type: theme clear to reset to default theme
+    • Effects and themes can be combined!
+    • Press Ctrl+C to stop matrix rain effect</pre>`,
+
+    "effect": () => {
+      if (args.length !== 2) return "Usage: effect [crt|rgb|neon|hologram|matrix|cyberpunk|retrowave|clear]";
+
+      const effect = args[1].toLowerCase();
+
+      if (effect === 'clear') {
+        clearAllEffects();
+        stopMatrix();
+        return "All effects cleared";
+      }
+
+      const validEffects = ['crt', 'rgb', 'neon', 'hologram', 'matrix', 'cyberpunk', 'retrowave'];
+
+      if (!validEffects.includes(effect)) {
+        return `Unknown effect: ${effect}. Available: ${validEffects.join(', ')}, clear`;
+      }
+
+      if (effect === 'matrix') {
+        terminal.classList.toggle('matrix-bg');
+        return `Matrix background ${terminal.classList.contains('matrix-bg') ? 'enabled' : 'disabled'}`;
+      } else {
+        terminal.classList.toggle(effect);
+        return `${effect.toUpperCase()} effect ${terminal.classList.contains(effect) ? 'enabled' : 'disabled'}`;
+      }
+    },
+
+    "theme": () => {
+      if (args.length !== 2) return "Usage: theme [amber|phosphor|termblue|hacker|default|clear]";
+
+      const theme = args[1].toLowerCase();
+
+      if (theme === 'clear' || theme === 'default') {
+        clearAllThemes();
+        return theme === 'clear' ? "All themes cleared" : "Default theme restored";
+      }
+
+      const validThemes = ['amber', 'phosphor', 'termblue', 'hacker'];
+
+      if (!validThemes.includes(theme)) {
+        return `Unknown theme. Available: ${validThemes.join(', ')}, default, clear`;
+      }
+
+      // Remove all theme classes first
+      clearAllThemes();
+      
+      // Apply the new theme
+      terminal.classList.add(theme);
+      return `${theme.charAt(0).toUpperCase() + theme.slice(1)} theme activated`;
+    },
+
+    "cmatrix": () => {
+      startMatrix();
+      return "Matrix digital rain started. Press Ctrl+C to stop.";
+    },
+
+    "clear": () => {
+      terminal.innerHTML = "";
+      return "";
+    },
+
+    "ls": () => {
+      const items = [
+        "help", "contact", "project", "about", "youtube", "fetch",
+        "clear", "whoami", "skills", "time", "history", "effects", "theme"
+      ];
+      const cols = 3;
+      let output = "";
+      for (let i = 0; i < items.length; i++) {
+        output += items[i].padEnd(12, " ");
+        if ((i + 1) % cols === 0) output += "\n";
+      }
+      return `<pre>${output.trim()}</pre>`;
+    },
+
+    "whoami": () => "guest@TheDevConnor.com - You are viewing Connor Harris's portfolio terminal",
+
+    "time": () => `Current time: ${new Date().toLocaleString()}`,
+
+    "history": () => {
+      if (commandStack.length === 0) return "No command history available";
+      return commandStack.map((cmd, i) => `${i + 1}: ${cmd}`).join('\n');
+    },
+
+    "skills": () => `<pre><span style="color:cyan;">Technical Skills:</span>
+
+  <span style="color:lime;">Programming Languages:</span>
+    • C++ (Intermediate)
+    • C (Intermediate)  
+    • Python (Advanced)
+    • JavaScript (Advanced)
+    • HTML/CSS (Advanced)
+    • Assembly (Intermediate)
+
+  <span style="color:lime;">Technologies & Tools:</span>
+    • Git/GitHub
+    • Linux/Unix
+    • Compiler Design
+    • Web Development
+    • Algorithm Design</pre>`,
+
+    "github": () => `<pre><span style="color:cyan;">GitHub Information:</span>
+  • <span style="color:lime;">Username:</span> TheDevConnor
+  • <span style="color:lime;">URL:</span> <a target="_blank" href="https://github.com/TheDevConnor">https://github.com/TheDevConnor</a></pre>`,
+
+    "about": () => {
+      const birthDate = new Date('2004-11-24');
+      const programmingStartDate = new Date('2019-11-24');
+      const today = new Date();
+      const age = Math.floor((today - birthDate) / (365.25 * 24 * 60 * 60 * 1000));
+      const yearsOfExperience = Math.floor((today - programmingStartDate) / (365.25 * 24 * 60 * 60 * 1000));
+
+      return `Hi, my name is Connor Harris, and I'm a ${age}-year-old self-taught programmer with about ${yearsOfExperience} years of experience. I'm currently pursuing a Bachelor's degree 
+in Computer Science at Florida Polytechnic University, with a focus on either software engineering or artificial intelligence. I'm passionate about creating developer tools and 
+low-level systems — currently working on two programming languages, Zura and Lux, designed to make coding cleaner, simpler, and more powerful. Most of what I've learned has come 
+from exploring, building, and learning from others online. I'm always striving to grow, and I hope to turn this passion into a lifelong career.`;
+    },
+
+    "contact": () => `Contact Information:
+    - Discord: thedevconnor
+    - Github: <a target="_blank" href="https://github.com/TheDevConnor">Link to Github</a>
+    - Email: <a href="mailto:connorharris427@gmail.com">connorharris427@gmail.com</a>`,
+
+    "youtube": () => `YouTube Information:
+    - YouTube Channel: TheDevConnor
+    - URL: <a target="_blank" href="https://www.youtube.com/channel/UCpEYiOD5VxkK3iK7JmtbrPQ">Link to Channel</a>`,
+
+    "project": () => {
+      if (args.length === 2) {
+        return checkProject(args[1]);
+      } else {
+        return "Please provide a project name from the list: zura, chess, wordle, terminal, or all";
+      }
+    },
+
+    "fetch": () => `🏠 Hi, I'm TheDevConnor
+
+💻 Building languages (Zura, Lux) • 🎓 CS student • ⚙️ Systems programming enthusiast
+────────────────────────────────────────────────────────────────────────────────────────
+🧠 Languages I Use:
+    • C         - Systems programming, low-level development
+    • C++       - Language design, compilers, performance-critical apps  
+    • Python    - Automation, scripting, rapid prototyping
+    • HTML5     - Web structure and markup
+    • CSS3      - Styling and responsive design
+    • Zig       - Modern systems programming
+────────────────────────────────────────────────────────────────────────────────────────
+🔗 Featured Projects:
+    • Zura Language        - <a target="_blank" href="https://zuralang.com">Visit Website</a>
+      Custom programming language compiled to x86 assembly
+      
+    • Terminal Website     - <a target="_blank" href="https://thedevconnor.github.io/TerminalWebsite/">Visit Website</a>
+      Interactive terminal-style portfolio (you're using it now!)
+
+    • Lux or Luma Language - <a target="_blank" href="https://github.com/TheDevConnor/Luma">Visit Website</a>
+      Custom programming language compiled with llvm
+────────────────────────────────────────────────────────────────────────────────────────
+📊 GitHub Activity:
+    • Profile: <a target="_blank" href="https://github.com/TheDevConnor">github.com/TheDevConnor</a>
+    • Focus: Language design, systems programming, developer tools
+    • Currently working on: Zura and Lux programming languages
+
+💡 Fun Fact: Most of my learning comes from building things and exploring 
+   new technologies. I believe in learning by doing!
+────────────────────────────────────────────────────────────────────────────────────────
+Type 'contact' for ways to reach me, or 'project all' to see more projects!`
+  };
+
+  // Handle project command separately
+  if (cmd === "project") {
+    if (args.length === 2) {
+      const response = checkProject(args[1]);
+      appendResponse(response);
+      return;
+    } else {
+      appendResponse("Please provide a project name from the list: zura, chess, wordle, terminal, or all");
+      return;
+    }
+  }
+
+  // Handle effect and theme commands
+  if (cmd === "effect") {
+    const response = commands.effect();
+    appendResponse(response);
+    return;
+  }
+
+  if (cmd === "theme") {
+    const response = commands.theme();
+    appendResponse(response);
+    return;
+  }
+
+  // Execute regular commands
+  if (commands[cmd]) {
+    const result = commands[cmd]();
+    if (result) appendResponse(result);
+  } else {
+    appendResponse(`Command not found: ${command}. Type 'help' for available commands.`);
+  }
+}
+
 function checkProject(projectName) {
   if (projectName === "all") {
     return (
-      checkProject("zura") +
-      checkProject("chess") +
-      checkProject("wordle") +
+      checkProject("zura") + "\n\n" +
+      checkProject("chess") + "\n\n" +
+      checkProject("wordle") + "\n\n" +
       checkProject("terminal")
     );
   } else if (projectName === "zura") {
@@ -312,120 +609,5 @@ function checkProject(projectName) {
     - YouTube Video: Coming Soon`;
   } else {
     return "Please provide a project name from the list: zura, chess, wordle, terminal, or all";
-  }
-}
-
-function executeCommand(command) {
-  if (!command) return;
-
-  const commands = {
-    "help": () => "Available commands: help, contact, project, about, youtube, fetch, clear, ls, whoami, skills, time, history",
-    "ls": () => "help  contact  project  about  youtube  fetch  clear  whoami  skills  time  history",
-    "whoami": () => "guest@TheDevConnor.com - You are viewing Connor Harris's portfolio terminal",
-    "time": () => `Current time: ${new Date().toLocaleString()}`,
-    "history": () => {
-      if (commandStack.length === 0) return "No command history available";
-      return commandStack.map((cmd, i) => `${i + 1}: ${cmd}`).join('\n');
-    },
-
-    "skills": () => `Technical Skills:
-Programming Languages:
-    - C++ (Intermediate)
-    - C (Intermediate)  
-    - Python (Advanced)
-    - JavaScript (Advanced)
-    - HTML/CSS (Advanced)
-    - Assembly (Intermediate)
-
-Technologies & Tools:
-    - Git/GitHub
-    - Linux/Unix
-    - Compiler Design
-    - Web Development
-    - Algorithm Design`,
-
-    "github": () => `GitHub Information:
-    - GitHub Username: TheDevConnor
-    - URL: <a target="_blank" href="https://github.com/TheDevConnor">Link to Github</a>`,
-
-    "clear": () => {
-      terminal.innerHTML = "";
-      return "";
-    },
-
-    "about": () => {
-      const birthDate = new Date('2004-11-24');
-      const programmingStartDate = new Date('2019-11-24'); // Assuming you started programming around age 15
-      const today = new Date();
-
-      const age = Math.floor((today - birthDate) / (365.25 * 24 * 60 * 60 * 1000));
-      const yearsOfExperience = Math.floor((today - programmingStartDate) / (365.25 * 24 * 60 * 60 * 1000));
-
-      return `Hi, my name is Connor Harris, and I'm a ${age}-year-old self-taught programmer with about ${yearsOfExperience} years of experience. I'm currently pursuing a Bachelor's degree 
-in Computer Science at Florida Polytechnic University, with a focus on either software engineering or artificial intelligence. I'm passionate about creating developer tools and 
-low-level systems — currently working on two programming languages, Zura and Lux, designed to make coding cleaner, simpler, and more powerful. Most of what I've learned has come 
-from exploring, building, and learning from others online. I'm always striving to grow, and I hope to turn this passion into a lifelong career.`;
-    },
-
-    "contact": () => `Contact Information:
-    - Discord: thedevconnor
-    - Github: <a target="_blank" href="https://github.com/TheDevConnor">Link to Github</a>
-    - Email: <a href="mailto:connorharris427@gmail.com">connorharris427@gmail.com</a>`,
-
-    "youtube": () => `YouTube Information:
-    - YouTube Channel: TheDevConnor
-    - URL: <a target="_blank" href="https://www.youtube.com/channel/UCpEYiOD5VxkK3iK7JmtbrPQ">Link to Channel</a>`,
-
-    "fetch": () => `👋 Hi, I'm TheDevConnor
-
-💻 Building languages (Zura, Lux) • 🎓 CS student • ⚙️ Systems programming enthusiast
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🧠 Languages I Use:
-    • C         - Systems programming, low-level development
-    • C++       - Language design, compilers, performance-critical apps  
-    • Python    - Automation, scripting, rapid prototyping
-    • HTML5     - Web structure and markup
-    • CSS3      - Styling and responsive design
-    • Zig       - Modern systems programming
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🔗 Featured Projects:
-    • Zura Language        - <a target="_blank" href="https://zuralang.com">Visit Website</a>
-      Custom programming language compiled to x86 assembly
-      
-    • Terminal Website     - <a target="_blank" href="https://thedevconnor.github.io/TerminalWebsite/">Visit Website</a>
-      Interactive terminal-style portfolio (you're using it now!)
-
-    • Lux or Luma Language - <a target="_blank" href="https://github.com/TheDevConnor/Luma">Visit Website</a>
-      Custom programming language compiled with llvm
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📊 GitHub Activity:
-    • Profile: <a target="_blank" href="https://github.com/TheDevConnor">github.com/TheDevConnor</a>
-    • Focus: Language design, systems programming, developer tools
-    • Currently working on: Zura and Lux programming languages
-
-💡 Fun Fact: Most of my learning comes from building things and exploring 
-   new technologies. I believe in learning by doing!
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Type 'contact' for ways to reach me, or 'project all' to see more projects!`
-  };
-
-  if (command.startsWith("project")) {
-    const projectArgs = command.split(" ");
-    if (projectArgs.length === 2) {
-      const projectName = projectArgs[1];
-      const response = checkProject(projectName);
-      appendResponse(response);
-      return;
-    } else {
-      appendResponse("Please provide a project name from the list: zura, chess, wordle, terminal, or all");
-      return;
-    }
-  }
-
-  if (commands[command]) {
-    const result = commands[command]();
-    if (result) appendResponse(result);
-  } else {
-    appendResponse(`Command not found: ${command}. Type 'help' for available commands.`);
   }
 }

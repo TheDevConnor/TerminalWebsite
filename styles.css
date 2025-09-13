@@ -1,3 +1,113 @@
+/* ═══════════════════════════════════════════════════════════════════════════════
+   THEDEVCONNOR TERMINAL PORTFOLIO - ENHANCED BOOT SEQUENCE STYLES
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* Base Linux boot styles */
+.boot-info { 
+  color: #00ff00; 
+  font-family: 'Courier New', monospace; 
+  font-size: 14px;
+}
+
+.boot-ok { 
+  color: #00cc00; 
+  font-family: 'Courier New', monospace; 
+  font-weight: bold; 
+  text-shadow: 0 0 5px #00cc00;
+}
+
+.boot-bracket { 
+  color: #888; 
+  font-weight: bold;
+}
+
+.boot-status { 
+  color: #00ff00; 
+  font-weight: bold; 
+  text-shadow: 0 0 8px #00ff00;
+}
+
+.boot-fail { 
+  color: #ff3333; 
+  font-weight: bold; 
+  text-shadow: 0 0 10px #ff0000; 
+  animation: errorFlash 2s infinite;
+}
+
+.boot-failed { 
+  color: #ff4444; 
+  font-weight: bold; 
+  background: rgba(255, 0, 0, 0.1);
+  padding: 2px 4px;
+}
+
+.boot-pending { 
+  color: #ffaa00; 
+  font-weight: bold; 
+  text-shadow: 0 0 8px #ffaa00;
+  animation: pendingPulse 1.5s infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   BIOS/POST PHASE STYLES
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+.boot-bios { 
+  color: #ffffff; 
+  font-family: 'Courier New', monospace; 
+  background: rgba(0, 0, 0, 0.8);
+  font-weight: normal;
+  text-shadow: 0 0 3px #ffffff;
+}
+
+.boot-divider { 
+  color: #00ff00; 
+  text-shadow: 0 0 10px #00ff00; 
+  font-weight: bold; 
+  text-align: center; 
+  animation: bootDividerPulse 2s infinite;
+  font-size: 16px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   PORTFOLIO-SPECIFIC ENHANCEMENTS
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+.terminal-line {
+  margin: 2px 0;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.boot-sequence-container {
+  background: #000;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  overflow-x: auto;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* Smooth typing effect for portfolio presentation */
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.typing-effect {
+  overflow: hidden;
+  border-right: 2px solid #00ff00;
+  white-space: nowrap;
+  animation: typewriter 0.1s steps(40, end), blink-caret 1s step-end infinite;
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: #00ff00; }
+}
+
 body {
     font-family: monospace, poppins, sans-serif;
     background-color: #22272B;
@@ -30,6 +140,7 @@ a {
     margin: 20px 20px 20px;
     padding: 30px;
     overflow-y: scroll;
+    transition: all 0.3s ease;
 }
 
 .terminal .welcome .Ascii {
@@ -88,7 +199,6 @@ a {
 
 .prompt {
     display: inline-flex;
-    /* Put everything inline */
     align-items: center;
 }
 
@@ -98,7 +208,7 @@ a {
 }
 
 .terminal-input {
-    background-color: #292f34;
+    background-color: transparent;
     color: lime;
     border: none;
     padding: 5px 10px;
@@ -106,24 +216,21 @@ a {
     outline: none;
     border-color: wheat;
     width: auto;
-    /* Let the input grow */
     min-width: 10ch;
-    /* Avoid collapsing */
 }
 
 .autocomplete {
     position: absolute;
     top: 5px;
-    /* match .terminal-input padding */
     left: 0;
-    /* start at left edge, JS will move it */
     font-family: monospace;
-    color: white;
+    color: #888888;
     font-style: italic;
-    opacity: 0.2;
+    opacity: 0.8;
     pointer-events: none;
     user-select: none;
     white-space: pre;
+    z-index: 10;
 }
 
 .terminal .output {
@@ -140,7 +247,6 @@ a {
     from {
         opacity: 0;
     }
-
     to {
         opacity: 1;
     }
@@ -150,7 +256,6 @@ a {
     from {
         width: 0;
     }
-
     to {
         width: 100%;
     }
@@ -160,8 +265,7 @@ a {
     overflow: hidden;
     border-right: 2px solid lime;
     white-space: nowrap;
-    animation: typewriter 0.5s steps(40) 1s both,
-        blink 1s infinite;
+    animation: typewriter 0.5s steps(40) 1s both, blink 1s infinite;
 }
 
 @keyframes blink {
@@ -191,7 +295,6 @@ a {
     from {
         opacity: 0;
     }
-
     to {
         opacity: 1;
     }
@@ -228,6 +331,471 @@ a {
     margin-right: 10px;
 }
 
+/* ============= ENHANCED CRT EFFECT ============= */
+.terminal.crt {
+    position: relative;
+    background: 
+        radial-gradient(ellipse at center, #001100 0%, #000000 70%),
+        repeating-linear-gradient(
+            0deg,
+            rgba(0, 255, 0, 0.03),
+            rgba(0, 255, 0, 0.03) 1px,
+            transparent 1px,
+            transparent 2px
+        );
+    border: 3px solid #333;
+    border-radius: 15px;
+    box-shadow: 
+        0 0 50px rgba(0, 255, 0, 0.5),
+        inset 0 0 100px rgba(0, 255, 0, 0.1);
+    animation: crtFlicker 0.15s infinite linear alternate;
+}
+
+/* Enhanced scanlines */
+.terminal.crt::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    pointer-events: none;
+    z-index: 1000;
+    animation: scanlineMove 0.1s linear infinite;
+}
+
+/* Screen curvature and vignette */
+.terminal.crt::after {
+    content: "";
+    position: absolute;
+    top: -5%;
+    left: -5%;
+    right: -5%;
+    bottom: -5%;
+    background: radial-gradient(ellipse at center,
+        transparent 60%,
+        rgba(0, 0, 0, 0.8) 100%);
+    pointer-events: none;
+    border-radius: 20px;
+    z-index: 999;
+}
+
+@keyframes crtFlicker {
+    0% { opacity: 1; }
+    97% { opacity: 1; }
+    98% { opacity: 0.98; }
+    99% { opacity: 0.96; }
+    100% { opacity: 1; }
+}
+
+@keyframes scanlineMove {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(2px); }
+}
+
+/* ============= ENHANCED RGB EFFECT ============= */
+.terminal.rgb {
+    animation: rgbGlitch 0.3s infinite;
+}
+
+.terminal.rgb * {
+    text-shadow:
+        -2px 0 0 #ff0000,
+        2px 0 0 #00ffff,
+        0 0 20px rgba(0, 255, 0, 0.5);
+    animation: textGlitch 0.2s infinite;
+}
+
+@keyframes rgbGlitch {
+    0%, 100% { 
+        transform: translateX(0);
+        filter: hue-rotate(0deg);
+    }
+    10% { 
+        transform: translateX(-2px);
+        filter: hue-rotate(90deg);
+    }
+    20% { 
+        transform: translateX(2px);
+        filter: hue-rotate(180deg);
+    }
+    30% { 
+        transform: translateX(-1px);
+        filter: hue-rotate(270deg);
+    }
+    40% { transform: translateX(1px); }
+    50% { transform: translateX(-2px); }
+    60% { transform: translateX(2px); }
+    70% { transform: translateX(-1px); }
+    80% { transform: translateX(1px); }
+    90% { transform: translateX(-2px); }
+}
+
+@keyframes textGlitch {
+    0%, 100% {
+        text-shadow:
+            -2px 0 0 #ff0000,
+            2px 0 0 #00ffff,
+            0 0 20px rgba(0, 255, 0, 0.5);
+    }
+    25% {
+        text-shadow:
+            -3px 0 0 #ff0000,
+            3px 0 0 #00ffff,
+            0 0 30px rgba(255, 0, 0, 0.5);
+    }
+    50% {
+        text-shadow:
+            -1px 0 0 #ff0000,
+            1px 0 0 #00ffff,
+            0 0 25px rgba(0, 255, 255, 0.5);
+    }
+    75% {
+        text-shadow:
+            -4px 0 0 #ff0000,
+            4px 0 0 #00ffff,
+            0 0 35px rgba(255, 255, 0, 0.5);
+    }
+}
+
+/* ============= ENHANCED NEON EFFECT ============= */
+.terminal.neon {
+    border: 3px solid #00ff00;
+    background: rgba(0, 20, 0, 0.9);
+    box-shadow:
+        0 0 5px #00ff00,
+        0 0 10px #00ff00,
+        0 0 15px #00ff00,
+        0 0 20px #00ff00,
+        0 0 35px #00ff00,
+        0 0 40px #00ff00,
+        inset 0 0 10px rgba(0, 255, 0, 0.1),
+        inset 0 0 20px rgba(0, 255, 0, 0.05);
+    animation: neonPulse 2s infinite alternate;
+}
+
+.terminal.neon * {
+    text-shadow: 
+        0 0 5px currentColor,
+        0 0 10px currentColor,
+        0 0 15px currentColor;
+}
+
+@keyframes neonPulse {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        box-shadow:
+            0 0 5px #00ff00,
+            0 0 10px #00ff00,
+            0 0 15px #00ff00,
+            0 0 20px #00ff00,
+            0 0 35px #00ff00,
+            0 0 40px #00ff00,
+            inset 0 0 10px rgba(0, 255, 0, 0.1),
+            inset 0 0 20px rgba(0, 255, 0, 0.05);
+    }
+    20%, 24%, 55% {
+        box-shadow:
+            0 0 2px #00ff00,
+            0 0 5px #00ff00,
+            0 0 8px #00ff00,
+            0 0 12px #00ff00,
+            0 0 20px #00ff00,
+            0 0 25px #00ff00,
+            inset 0 0 5px rgba(0, 255, 0, 0.05),
+            inset 0 0 10px rgba(0, 255, 0, 0.02);
+    }
+}
+
+/* ============= ENHANCED HOLOGRAM EFFECT ============= */
+.terminal.hologram {
+    background: 
+        linear-gradient(45deg,
+            rgba(0, 255, 255, 0.1) 0%,
+            rgba(255, 0, 255, 0.1) 25%,
+            rgba(0, 255, 0, 0.1) 50%,
+            rgba(255, 255, 0, 0.1) 75%,
+            rgba(0, 255, 255, 0.1) 100%);
+    border: 2px solid rgba(0, 255, 255, 0.8);
+    animation: hologramShift 4s infinite ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.terminal.hologram::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent);
+    animation: hologramScan 3s infinite;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes hologramShift {
+    0%, 100% {
+        border-color: rgba(0, 255, 255, 0.8);
+        background-position: 0% 0%;
+    }
+    25% {
+        border-color: rgba(255, 0, 255, 0.8);
+        background-position: 25% 25%;
+    }
+    50% {
+        border-color: rgba(0, 255, 0, 0.8);
+        background-position: 50% 50%;
+    }
+    75% {
+        border-color: rgba(255, 255, 0, 0.8);
+        background-position: 75% 75%;
+    }
+}
+
+@keyframes hologramScan {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* ============= NEW: CYBERPUNK EFFECT ============= */
+.terminal.cyberpunk {
+    background: 
+        linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 50%, #0a1a0a 100%),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 98px,
+            rgba(255, 0, 150, 0.03) 100px
+        );
+    border: 2px solid #ff0080;
+    color: #00ffff;
+    box-shadow: 
+        0 0 20px rgba(255, 0, 128, 0.5),
+        inset 0 0 20px rgba(0, 255, 255, 0.1);
+    animation: cyberpunkGlow 3s infinite alternate;
+}
+
+.terminal.cyberpunk * {
+    text-shadow: 
+        0 0 10px #00ffff,
+        0 0 20px #ff0080,
+        0 0 30px #00ffff;
+}
+
+@keyframes cyberpunkGlow {
+    0% {
+        box-shadow: 
+            0 0 20px rgba(255, 0, 128, 0.3),
+            inset 0 0 20px rgba(0, 255, 255, 0.1);
+    }
+    100% {
+        box-shadow: 
+            0 0 40px rgba(255, 0, 128, 0.6),
+            inset 0 0 40px rgba(0, 255, 255, 0.2);
+    }
+}
+
+/* ============= NEW: RETRO WAVE EFFECT ============= */
+.terminal.retrowave {
+    background: 
+        linear-gradient(180deg, #1a0033 0%, #330066 50%, #660033 100%);
+    border: 3px solid #ff00ff;
+    color: #ffff00;
+    box-shadow: 
+        0 0 30px rgba(255, 0, 255, 0.6),
+        inset 0 0 30px rgba(255, 255, 0, 0.1);
+    animation: retrowaveShift 5s infinite ease-in-out;
+    position: relative;
+}
+
+.terminal.retrowave::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(255, 0, 255, 0.1) 0px,
+        rgba(255, 0, 255, 0.1) 2px,
+        transparent 2px,
+        transparent 6px
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes retrowaveShift {
+    0%, 100% {
+        border-color: #ff00ff;
+        color: #ffff00;
+    }
+    33% {
+        border-color: #00ffff;
+        color: #ff00ff;
+    }
+    66% {
+        border-color: #ffff00;
+        color: #00ffff;
+    }
+}
+
+/* ============= ENHANCED THEMES ============= */
+
+/* Retro Amber */
+.terminal.amber {
+    background: 
+        radial-gradient(ellipse at center, #2a1500 0%, #1a0f00 100%);
+    color: #ffb000;
+    border: 2px solid #ff8800;
+    box-shadow: 
+        0 0 20px rgba(255, 136, 0, 0.4),
+        inset 0 0 20px rgba(255, 180, 0, 0.1);
+    animation: amberGlow 4s infinite ease-in-out;
+}
+
+.terminal.amber .prompt .user,
+.terminal.amber .welcome .Ascii,
+.terminal.amber .output {
+    color: #ffb000;
+    text-shadow: 0 0 10px rgba(255, 180, 0, 0.5);
+}
+
+@keyframes amberGlow {
+    0%, 100% {
+        box-shadow: 
+            0 0 20px rgba(255, 136, 0, 0.4),
+            inset 0 0 20px rgba(255, 180, 0, 0.1);
+    }
+    50% {
+        box-shadow: 
+            0 0 30px rgba(255, 136, 0, 0.6),
+            inset 0 0 30px rgba(255, 180, 0, 0.15);
+    }
+}
+
+/* Enhanced Green Phosphor */
+.terminal.phosphor {
+    background: 
+        radial-gradient(ellipse at center, #002200 0%, #001100 100%);
+    color: #00ff41;
+    border: 2px solid #00dd00;
+    box-shadow: 
+        0 0 25px rgba(0, 255, 65, 0.4),
+        inset 0 0 25px rgba(0, 255, 65, 0.1);
+    animation: phosphorFlicker 6s infinite ease-in-out;
+}
+
+.terminal.phosphor .prompt .user,
+.terminal.phosphor .welcome .Ascii,
+.terminal.phosphor .output {
+    color: #00ff41;
+    text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
+}
+
+@keyframes phosphorFlicker {
+    0%, 100% {
+        box-shadow: 
+            0 0 25px rgba(0, 255, 65, 0.4),
+            inset 0 0 25px rgba(0, 255, 65, 0.1);
+    }
+    50% {
+        box-shadow: 
+            0 0 35px rgba(0, 255, 65, 0.6),
+            inset 0 0 35px rgba(0, 255, 65, 0.15);
+    }
+}
+
+/* NEW: Terminal Blue Theme */
+.terminal.termblue {
+    background: 
+        radial-gradient(ellipse at center, #001122 0%, #000011 100%);
+    color: #00aaff;
+    border: 2px solid #0088cc;
+    box-shadow: 
+        0 0 25px rgba(0, 170, 255, 0.4),
+        inset 0 0 25px rgba(0, 170, 255, 0.1);
+}
+
+.terminal.termblue .prompt .user,
+.terminal.termblue .welcome .Ascii,
+.terminal.termblue .output {
+    color: #00aaff;
+    text-shadow: 0 0 8px rgba(0, 170, 255, 0.6);
+}
+
+/* NEW: Hacker Theme */
+.terminal.hacker {
+    background: 
+        linear-gradient(45deg, #000000 0%, #001a00 50%, #000000 100%);
+    color: #00ff00;
+    border: 2px solid #00cc00;
+    box-shadow: 
+        0 0 30px rgba(0, 255, 0, 0.5),
+        inset 0 0 20px rgba(0, 255, 0, 0.1);
+    font-weight: bold;
+}
+
+.terminal.hacker * {
+    text-shadow: 
+        0 0 5px #00ff00,
+        0 0 10px #00ff00;
+}
+
+/* Matrix-style digital rain background - Enhanced */
+.terminal.matrix-bg {
+    background: 
+        radial-gradient(ellipse at center, #001100 0%, #000800 100%),
+        repeating-linear-gradient(90deg,
+            rgba(0, 255, 0, 0.03) 0px,
+            rgba(0, 255, 0, 0.03) 1px,
+            transparent 1px,
+            transparent 30px);
+    animation: matrixScroll 15s linear infinite;
+    position: relative;
+}
+
+.terminal.matrix-bg::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        repeating-linear-gradient(0deg,
+            rgba(0, 255, 0, 0.02) 0px,
+            rgba(0, 255, 0, 0.02) 2px,
+            transparent 2px,
+            transparent 8px);
+    animation: matrixVertical 10s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes matrixScroll {
+    0% { background-position: 0 0, 0 0; }
+    100% { background-position: 30px 0, 0 100vh; }
+}
+
+@keyframes matrixVertical {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(20px); }
+}
+
+/* ============= MOBILE RESPONSIVENESS ============= */
 @media only screen and (max-width: 600px) {
     .terminal .welcome .Ascii {
         font-size: 8px;
@@ -241,5 +809,13 @@ a {
 
     .boot-sequence {
         font-size: 11px;
+    }
+    
+    /* Reduce intensive animations on mobile for performance */
+    .terminal.crt::before,
+    .terminal.rgb *,
+    .terminal.neon *,
+    .terminal.hologram::before {
+        animation-duration: 0.5s;
     }
 }
