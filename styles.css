@@ -1,0 +1,245 @@
+body {
+    font-family: monospace, poppins, sans-serif;
+    background-color: #22272B;
+    color: limegreen;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+}
+
+a {
+    color: #00b8ff;
+    text-decoration: none;
+}
+
+.terminal {
+    background-color: #292f34;
+    border: 2px solid rgb(50, 195, 205);
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: auto;
+    max-width: auto;
+    margin: 20px 20px 20px;
+    padding: 30px;
+    overflow-y: scroll;
+}
+
+.terminal .welcome .Ascii {
+    color: #f5d0a7;
+    font-family: monospace, poppins, sans-serif;
+    font-weight: bold;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+.terminal .welcome {
+    padding-bottom: 5px;
+    color: #b58c5e;
+}
+
+.terminal .welcome .line {
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+}
+
+.terminal .welcome .sub_line {
+    margin: 0;
+    padding: 0;
+    line-height: 0.5;
+    color: #ebc8a0;
+    font-size: 15px;
+    font-style: italic;
+}
+
+.terminal .prompt span {
+    margin: 0;
+    padding: 0;
+}
+
+.terminal .prompt .colon {
+    display: inline;
+}
+
+.terminal .prompt .user {
+    color: rgb(86, 171, 86);
+}
+
+.terminal .prompt .at {
+    color: white;
+}
+
+.terminal .prompt .website {
+    color: rgb(104, 202, 170);
+}
+
+.terminal .prompt .colon {
+    color: magenta;
+}
+
+.prompt {
+    display: inline-flex;
+    /* Put everything inline */
+    align-items: center;
+}
+
+.input-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.terminal-input {
+    background-color: #292f34;
+    color: lime;
+    border: none;
+    padding: 5px 10px;
+    font-family: monospace;
+    outline: none;
+    border-color: wheat;
+    width: auto;
+    /* Let the input grow */
+    min-width: 10ch;
+    /* Avoid collapsing */
+}
+
+.autocomplete {
+    position: absolute;
+    top: 5px;
+    /* match .terminal-input padding */
+    left: 0;
+    /* start at left edge, JS will move it */
+    font-family: monospace;
+    color: white;
+    font-style: italic;
+    opacity: 0.2;
+    pointer-events: none;
+    user-select: none;
+    white-space: pre;
+}
+
+.terminal .output {
+    color: whitesmoke;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes typewriter {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+.typing {
+    overflow: hidden;
+    border-right: 2px solid lime;
+    white-space: nowrap;
+    animation: typewriter 0.5s steps(40) 1s both,
+        blink 1s infinite;
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
+
+.cursor {
+    animation: blink 1s infinite;
+}
+
+.boot-sequence {
+    color: #00ff00;
+    font-family: monospace;
+    font-size: 13px;
+    line-height: 1.3;
+}
+
+.boot-line {
+    margin: 2px 0;
+    opacity: 0;
+    animation: fadeInLine 0.1s ease-in forwards;
+}
+
+@keyframes fadeInLine {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.boot-ok {
+    color: #00ff00;
+}
+
+.boot-info {
+    color: #00aaff;
+}
+
+.boot-warn {
+    color: #ffaa00;
+}
+
+.boot-error {
+    color: #ff4444;
+}
+
+.boot-bracket {
+    color: #888888;
+}
+
+.boot-status {
+    color: #00ff00;
+    font-weight: bold;
+}
+
+.timestamp {
+    color: #666;
+    font-size: 12px;
+    margin-right: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+    .terminal .welcome .Ascii {
+        font-size: 8px;
+        overflow-x: auto;
+    }
+
+    .terminal {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    .boot-sequence {
+        font-size: 11px;
+    }
+}

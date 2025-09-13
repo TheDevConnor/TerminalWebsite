@@ -4,33 +4,46 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Terminal-Style Website</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  <title>Connor Harris — Developer & Creator</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
   <div class="terminal">
+    <!-- Linux Boot Sequence -->
+    <div class="boot-sequence" id="bootSequence">
+      <!-- Boot messages will be dynamically inserted here -->
+    </div>
+
     <!-- Terminal Welcome -->
-    <div class="welcome">
-      <pre class="Ascii">
+    <div class="welcome" style="display: none;">
+      <pre class="Ascii" id="asciiArt">
 ██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗
 ██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝
 ██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗  
 ██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝  
 ╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗
  ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝ </pre>
-      <span class="line">Welcome to TheDevConnor.com Terminal</span>
-      <span class="sub_line">
-        <br>Type 'help' to get a list of commands
-        <br>Type 'fetch' to get something cool
-      </span>
+
+      <div id="welcomeText">
+        <span class="line">Welcome to TheDevConnor.com Terminal</span>
+        <span class="sub_line">
+          <br>Type 'help' to get a list of commands
+          <br>Type 'fetch' to get something cool
+        </span>
+      </div>
     </div>
 
     <template id="prompt">
       <div class="prompt">
+        <span class="timestamp"></span>
         <span class="user">guest</span><span class="at">@</span><span class="website">TheDevConnor.com</span><span
-          class="colon">:$ ~</span>
-        <input class="terminal-input" type="text" /><span class="autocomplete"></span>
+          class="colon">:$ ~ </span>
+        <span class="input-wrapper">
+          <input class="terminal-input" type="text" />
+          <span class="autocomplete"></span>
+        </span>
       </div>
     </template>
 
